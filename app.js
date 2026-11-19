@@ -1,20 +1,25 @@
 (function () {
   var C = window.MF, app = document.getElementById('app');
   var venues = [], map = null, layer = null, markers = {};
-  var F = { cuisine: '', pmin: '', pmax: '' };
+  var F = { cuisine: '', pmin: null, pmax: null };
+  var B = { lo: 0, hi: 100 }, shown = 0, CH = 24;
   var order = [];
 
   document.getElementById('ig').href = C.INSTAGRAM;
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function eur(n) { return n + ' €'; }
+  var NUM = { 2: 'due', 3: 'tre', 4: 'quattro', 5: 'cinque', 6: 'sei' };
+  function spent(v) { var p = +v.people || 1; return eur(v.price) + (p === 1 ? ' da solo' : ' in ' + (NUM[p] || p + ' persone')); }
+  function bounds() { var a = venues.map(function (v) { return v.price; }); B.lo = Math.max(0, Math.floor(Math.min.apply(null, a) / 5) * 5); B.hi = Math.ceil(Math.max.apply(null, a) / 5) * 5; if (B.hi <= B.lo) B.hi = B.lo + 5; }
+  function pLo() { return F.pmin == null ? B.lo : F.pmin; }
+  function pHi() { return F.pmax == null ? B.hi : F.pmax; }
   function stars(r) { var h = '<div class="stars" aria-label="Voto ' + r + ' su 10">'; for (var i = 0; i < 10; i++) h += '<i class="' + (i < r ? 'on' : '') + '"></i>'; return h + '<b>' + r + '/10</b></div>'; }
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   function byId(id) { return venues.filter(function (v) { return v.id === id; })[0]; }
   function filtered() {
     return venues.filter(function (v) {
       if (F.cuisine && v.cuisine !== F.cuisine) return false;
-      if (F.pmin !== '' && v.price < +F.pmin) return false;
-      if (F.pmax !== '' && v.price > +F.pmax) return false;
+      if (v.price < pLo() || v.price > pHi()) return false;
       return true;
     });
   }
@@ -30,7 +35,7 @@
 
   // ---- anteprima sulla mappa ----
   function popup(v) {
-    return '<div class="pp"><div class="ph"><img src="' + esc(v.photos[0]) + '" alt=""></div><div class="bd"><div class="t">' + esc(v.name) + '</div><div class="s">' + esc(v.cuisine) + ' · ' + eur(v.price) + ' a testa</div>' + stars(v.rating) + '<a class="btn" href="#/locale/' + esc(v.id) + '">Apri la scheda completa</a></div></div>';
+    return '<div class="pp"><div class="ph"><img src="' + esc(v.photos[0]) + '" alt=""></div><div class="bd"><div class="t">' + esc(v.name) + '</div><div class="s">' + esc(v.cuisine) + ' · ' + spent(v) + '</div>' + stars(v.rating) + '<a class="btn" href="#/locale/' + esc(v.id) + '">Apri la scheda completa</a></div></div>';
   }
   function drawMap(elId, start) {
     if (map) { map.remove(); map = null; }
@@ -57,34 +62,53 @@
 
   function filterBar() {
     var cu = []; venues.forEach(function (v) { if (cu.indexOf(v.cuisine) < 0) cu.push(v.cuisine); }); cu.sort();
-    function opts(arr, cur, first) { return '<option value="">' + first + '</option>' + arr.map(function (n) { return '<option value="' + n + '"' + (String(cur) === String(n) ? ' selected' : '') + '>' + (typeof n === 'number' ? eur(n) : esc(n)) + '</option>'; }).join(''); }
-    return '<div class="filters"><div class="f"><label for="fc">Tipo di cucina</label><select id="fc">' + opts(cu, F.cuisine, 'Tutte le cucine') + '</select></div>' +
-      '<div class="f"><label for="fa">Prezzo speso da</label><select id="fa">' + opts([5, 10, 15, 20, 30, 40], F.pmin, 'Qualsiasi') + '</select></div>' +
-      '<div class="f"><label for="fb">Prezzo speso a</label><select id="fb">' + opts([10, 15, 20, 30, 40, 50, 100], F.pmax, 'Qualsiasi') + '</select></div>' +
+    var o = '<option value="">Tutte le cucine</option>' + cu.map(function (c) { return '<option value="' + esc(c) + '"' + (F.cuisine === c ? ' selected' : '') + '>' + esc(c) + '</option>'; }).join('');
+    return '<div class="filters"><div class="f"><label for="fc">Tipo di cucina</label><select id="fc">' + o + '</select></div>' +
+      '<div class="f f2"><label>Prezzo speso: <span id="rl"></span></label><div class="range"><div class="rt"></div><div class="rf" id="rf"></div>' +
+      '<input type="range" id="ra" min="' + B.lo + '" max="' + B.hi + '" step="1" value="' + pLo() + '" aria-label="Prezzo minimo"><input type="range" id="rb" min="' + B.lo + '" max="' + B.hi + '" step="1" value="' + pHi() + '" aria-label="Prezzo massimo"></div></div>' +
       '<button class="link" id="reset" type="button">Azzera filtri</button><a class="btn" id="count" href="#mappa-box">Mostra ' + filtered().length + ' locali</a></div>';
   }
+  function paintRange() {
+    var a = document.getElementById('ra'), b = document.getElementById('rb'); if (!a) return;
+    var span = B.hi - B.lo, l = (+a.value - B.lo) / span * 100, r = (+b.value - B.lo) / span * 100;
+    var f = document.getElementById('rf'); f.style.left = l + '%'; f.style.width = (r - l) + '%';
+    document.getElementById('rl').textContent = 'da ' + a.value + ' € a ' + b.value + ' €';
+  }
   function bindFilters() {
-    function on() { F.cuisine = document.getElementById('fc').value; F.pmin = document.getElementById('fa').value; F.pmax = document.getElementById('fb').value; refreshPins(); if (document.getElementById('cards')) cards(); }
-    ['fc', 'fa', 'fb'].forEach(function (i) { document.getElementById(i).addEventListener('change', on); });
-    document.getElementById('reset').addEventListener('click', function () { F = { cuisine: '', pmin: '', pmax: '' }; render(); });
+    var a = document.getElementById('ra'), b = document.getElementById('rb');
+    function on() {
+      if (+a.value > +b.value) { if (this === a) a.value = b.value; else b.value = a.value; }
+      F.cuisine = document.getElementById('fc').value;
+      F.pmin = +a.value <= B.lo ? null : +a.value; F.pmax = +b.value >= B.hi ? null : +b.value;
+      paintRange(); refreshPins(); if (document.getElementById('cards')) list();
+    }
+    document.getElementById('fc').addEventListener('change', on);
+    a.addEventListener('input', on); b.addEventListener('input', on);
+    document.getElementById('reset').addEventListener('click', function () { F = { cuisine: '', pmin: null, pmax: null }; render(); });
+    paintRange();
   }
   function card(v) {
     var tx = v.text.length > 110 ? v.text.slice(0, 108) + '…' : v.text;
-    return '<a class="card" href="#/locale/' + esc(v.id) + '" style="text-decoration:none"><div class="ph"><img loading="lazy" src="' + esc(v.photos[0]) + '" alt="' + esc(v.name) + '"></div><div class="bd"><div class="t">' + esc(v.name) + '</div><div class="s">' + esc(v.cuisine) + ' · ' + eur(v.price) + ' a testa</div>' + stars(v.rating) + '<div class="tx">' + esc(tx) + '</div></div></a>';
+    return '<a class="card" href="#/locale/' + esc(v.id) + '" style="text-decoration:none"><div class="ph"><img loading="lazy" src="' + esc(v.photos[0]) + '" alt="' + esc(v.name) + '"></div><div class="bd"><div class="t">' + esc(v.name) + '</div><div class="s">' + esc(v.cuisine) + ' · ' + spent(v) + '</div>' + stars(v.rating) + '<div class="tx">' + esc(tx) + '</div></div></a>';
   }
-  function cards() {
+  function list() {
     var ids = filtered().map(function (v) { return v.id; });
-    var pick = order.filter(function (id) { return ids.indexOf(id) >= 0; }).slice(0, 3);
-    document.getElementById('cards').innerHTML = pick.map(function (id) { return card(byId(id)); }).join('') || '<p>Nessun locale con questi filtri.</p>';
+    var items = order.filter(function (id) { return ids.indexOf(id) >= 0; });
+    var box = document.getElementById('cards'); box.innerHTML = ''; box.scrollTop = 0; shown = 0;
+    var info = document.getElementById('lcount'); if (info) info.textContent = items.length + (items.length === 1 ? ' recensione' : ' recensioni');
+    if (!items.length) { box.innerHTML = '<p style="padding:10px">Nessun locale con questi filtri.</p>'; return; }
+    function more() { var html = items.slice(shown, shown + CH).map(function (id) { return card(byId(id)); }).join(''); shown += CH; box.insertAdjacentHTML('beforeend', '<div class="cards">' + html + '</div>'); }
+    more();
+    box.onscroll = function () { if (shown < items.length && box.scrollTop + box.clientHeight >= box.scrollHeight - 300) more(); };
   }
 
   // ---- pagine ----
   function home() {
     app.innerHTML = '<section class="wood hero"><div class="hero-in"><h1>Dove si mangia davvero.</h1><p>Recensioni sincere dei posti che provo, sulla mappa. Cerca per cucina e per quanto si spende.</p></div></section>' +
       '<div class="wrap">' + filterBar() + '</div><div class="wrap" id="mappa-box" style="padding-top:0"><div class="mapbox"><div id="map"></div></div><p class="note">Muovi e ingrandisci la mappa: tocca uno spillo per l\'anteprima.</p>' +
-      '<h2>Recensioni da leggere</h2><div class="cards" id="cards"></div><div class="more"><button class="btn" id="reroll" type="button">Mostrane altre</button></div></div>';
-    bindFilters(); drawMap('map', 12); cards();
-    document.getElementById('reroll').addEventListener('click', function () { order = shuffle(order); cards(); });
+      '<h2>Recensioni da leggere</h2><div class="lhead"><span id="lcount" class="note" style="margin:0"></span><button class="btn" id="reroll" type="button" style="min-height:44px">Mischia</button></div><div class="scroller" id="cards"></div></div>';
+    bindFilters(); drawMap('map', 12); list();
+    document.getElementById('reroll').addEventListener('click', function () { order = shuffle(order); list(); });
   }
   function mappa() {
     app.innerHTML = '<div class="wrap mapfull">' + filterBar() + '<div class="mapbox" style="margin-top:18px"><div id="map"></div></div></div>';
@@ -95,7 +119,7 @@
     var i = 0, ph = v.photos;
     app.innerHTML = '<div class="wrap"><button class="back" type="button" id="b">← Torna alla mappa</button><div class="venue"><div><div class="gal"><img id="gi" src="' + esc(ph[0]) + '" alt="Foto da ' + esc(v.name) + '">' +
       (ph.length > 1 ? '<button id="gp" style="left:10px" aria-label="Foto precedente">‹</button><button id="gn" style="right:10px" aria-label="Foto successiva">›</button>' : '') + '</div></div>' +
-      '<div><h1>' + esc(v.name) + '</h1>' + stars(v.rating) + '<div class="chips"><span class="chip">' + esc(v.cuisine) + '</span><span class="chip">' + eur(v.price) + ' a testa</span></div>' +
+      '<div><h1>' + esc(v.name) + '</h1>' + stars(v.rating) + '<div class="chips"><span class="chip">' + esc(v.cuisine) + '</span><span class="chip">' + spent(v) + '</span></div>' +
       '<div class="panel"><p style="margin:0">' + esc(v.text) + '</p></div><div class="panel"><b style="font-family:Inter,sans-serif">Indirizzo</b><br>' + esc(v.address) + '<br><a href="https://www.openstreetmap.org/?mlat=' + v.lat + '&mlon=' + v.lon + '#map=17/' + v.lat + '/' + v.lon + '" target="_blank" rel="noopener">Apri su OpenStreetMap</a></div></div></div></div>';
     document.getElementById('b').addEventListener('click', function () { location.hash = '#/'; });
     if (ph.length > 1) { var g = document.getElementById('gi'); document.getElementById('gp').onclick = function () { i = (i + ph.length - 1) % ph.length; g.src = ph[i]; }; document.getElementById('gn').onclick = function () { i = (i + 1) % ph.length; g.src = ph[i]; }; }
@@ -116,7 +140,7 @@
   window.addEventListener('hashchange', render);
   load().then(function (d) {
     venues = d.map(function (v) { v.photos = (v.photos && v.photos.length ? v.photos : ['placeholder.jpg']).map(function (p) { return p.split('/').pop(); }); return v; });
-    order = shuffle(venues.map(function (v) { return v.id; }));
+    order = shuffle(venues.map(function (v) { return v.id; })); bounds();
     render();
   });
 })();
