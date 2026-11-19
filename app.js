@@ -10,7 +10,7 @@
   function eur(n) { return n + ' €'; }
   var NUM = { 2: 'due', 3: 'tre', 4: 'quattro', 5: 'cinque', 6: 'sei' };
   function spent(v) { var p = +v.people || 1; return eur(v.price) + (p === 1 ? ' da solo' : ' in ' + (NUM[p] || p + ' persone')); }
-  function bounds() { var a = venues.map(function (v) { return v.price; }); B.lo = Math.max(0, Math.floor(Math.min.apply(null, a) / 5) * 5); B.hi = Math.ceil(Math.max.apply(null, a) / 5) * 5; if (B.hi <= B.lo) B.hi = B.lo + 5; }
+  function bounds() { var a = venues.map(function (v) { return v.price; }); if (!a.length) { B.lo = 0; B.hi = 100; return; } B.lo = Math.max(0, Math.floor(Math.min.apply(null, a) / 5) * 5); B.hi = Math.ceil(Math.max.apply(null, a) / 5) * 5; if (B.hi <= B.lo) B.hi = B.lo + 5; }
   function pLo() { return F.pmin == null ? B.lo : F.pmin; }
   function pHi() { return F.pmax == null ? B.hi : F.pmax; }
   function stars(r) { var h = '<div class="stars" aria-label="Voto ' + r + ' su 10">'; for (var i = 0; i < 10; i++) h += '<i class="' + (i < r ? 'on' : '') + '"></i>'; return h + '<b>' + r + '/10</b></div>'; }
@@ -29,7 +29,6 @@
     var ctl = new AbortController(); var t = setTimeout(function () { ctl.abort(); }, 5000);
     return fetch(C.SUPABASE_URL + '/rest/v1/venues?select=*&order=created_at.desc', { headers: { apikey: C.SUPABASE_KEY, Authorization: 'Bearer ' + C.SUPABASE_KEY }, signal: ctl.signal })
       .then(function (r) { clearTimeout(t); if (!r.ok) throw new Error('db'); return r.json(); })
-      .then(function (d) { if (!d.length) throw new Error('vuoto'); return d; })
       .catch(function () { return fetch('venues.json').then(function (r) { return r.json(); }); });
   }
 
@@ -96,7 +95,7 @@
     var items = order.filter(function (id) { return ids.indexOf(id) >= 0; });
     var box = document.getElementById('cards'); box.innerHTML = ''; box.scrollTop = 0; shown = 0;
     var info = document.getElementById('lcount'); if (info) info.textContent = items.length + (items.length === 1 ? ' recensione' : ' recensioni');
-    if (!items.length) { box.innerHTML = '<p style="padding:10px">Nessun locale con questi filtri.</p>'; return; }
+    if (!items.length) { box.innerHTML = '<p style="padding:10px">' + (venues.length ? 'Nessun locale con questi filtri.' : 'Le prime recensioni arrivano presto.') + '</p>'; return; }
     function more() { var html = items.slice(shown, shown + CH).map(function (id) { return card(byId(id)); }).join(''); shown += CH; box.insertAdjacentHTML('beforeend', '<div class="cards">' + html + '</div>'); }
     more();
     box.onscroll = function () { if (shown < items.length && box.scrollTop + box.clientHeight >= box.scrollHeight - 300) more(); };
@@ -104,7 +103,7 @@
 
   // ---- pagine ----
   function home() {
-    app.innerHTML = '<section class="wood hero"><div class="hero-in"><h1>Dove si mangia davvero.</h1><p>Recensioni sincere dei posti che provo, sulla mappa. Cerca per cucina e per quanto si spende.</p></div></section>' +
+    app.innerHTML = '<section class="wood hero"><div class="hero-in"><h1>Dove si mangia bene.</h1><p>Recensisco tutti i posti dove si beve e si mangia bene. Premi in alto a destra su «Contatta l\'admin» per scrivermi via mail posti da provare, o se volete invitarmi a mangiare.</p></div></section>' +
       '<div class="wrap">' + filterBar() + '</div><div class="wrap" id="mappa-box" style="padding-top:0"><div class="mapbox"><div id="map"></div></div><p class="note">Muovi e ingrandisci la mappa: tocca uno spillo per l\'anteprima.</p>' +
       '<h2>Recensioni da leggere</h2><div class="lhead"><span id="lcount" class="note" style="margin:0"></span><button class="btn" id="reroll" type="button" style="min-height:44px">Mischia</button></div><div class="scroller" id="cards"></div></div>';
     bindFilters(); drawMap('map', 12); list();
@@ -139,7 +138,7 @@
   }
   window.addEventListener('hashchange', render);
   load().then(function (d) {
-    venues = d.map(function (v) { v.photos = (v.photos && v.photos.length ? v.photos : ['placeholder.jpg']).map(function (p) { return p.split('/').pop(); }); return v; });
+    venues = d.map(function (v) { v.photos = (v.photos && v.photos.length ? v.photos : ['placeholder.jpg']).map(function (p) { return /^https?:/.test(p) ? p : p.split('/').pop(); }); return v; });
     order = shuffle(venues.map(function (v) { return v.id; })); bounds();
     render();
   });

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin · Mangio Fuori</title><meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+<style>
+.ad{max-width:900px;margin:0 auto;padding:18px 16px 60px}
+.ad h1{font-family:'Alfa Slab One',Georgia,serif;font-weight:400;color:var(--green);margin:8px 0 14px}
+.box{background:var(--paper);border:3px solid var(--gold);padding:16px;margin-bottom:16px}
+.ad label{display:block;font:600 12px 'Inter',system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
+.ad input[type=text],.ad input[type=email],.ad input[type=password],.ad input[type=number],.ad textarea,.ad select{width:100%;min-height:48px;padding:10px 12px;font:500 16px 'Inter',system-ui,sans-serif;background:#FFFDF6;border:2px solid #8A6A44;border-radius:2px;color:#3A2A1F}
+.ad textarea{min-height:240px;font-family:'Lora',Georgia,serif;line-height:1.5}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row>div{flex:1 1 140px}
+.ad .btn{margin-top:12px}.btn.sec{background:var(--green)}.btn.del{background:#6b1d14}
+.vl{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #d9c9a3;font:500 15px 'Inter',system-ui,sans-serif}
+.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.th{width:120px;border:2px solid var(--gold);background:#fff;font:12px 'Inter',sans-serif}.th img{width:100%;height:110px;object-fit:cover;display:block}
+.th div{display:flex}.th button{flex:1;min-height:40px;border:0;background:#eadfc3;cursor:pointer;font-size:14px}
+#amap{height:360px;border:3px solid var(--green);margin-top:8px}
+.msg{font:500 14px 'Inter',sans-serif;margin-top:8px}.err{color:#a33}.ok{color:#176}
+</style></head><body>
+<div class="ad"><h1>Pannello Mangio Fuori</h1><div id="root"></div></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script><script src="admin.js"></script>
+</body></html>
