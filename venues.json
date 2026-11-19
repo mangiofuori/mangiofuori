@@ -1,0 +1,325 @@
+[
+ {
+  "id": "v1",
+  "name": "Futura Pizzeria Romana",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Pizzeria",
+  "address": "Via Borsieri 28, Milano",
+  "rating": 8,
+  "price": 35,
+  "lat": 45.4888,
+  "lon": 9.1892,
+  "photos": [
+   "photos/futura.jpg"
+  ],
+  "text": "Parto col dire che ci volevo andare da febbraio. Le prenotazioni erano sempre piene (da marzo c’erano prenotazioni a giugno). Chiami e nessuno risponde, dopo mesi controllo e per culo c’era posto di domenica…",
+  "approx": false
+ },
+ {
+  "id": "v2",
+  "name": "Yanso Korean BBQ",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Coreano",
+  "address": "Via Paolo Sarpi 27, Milano",
+  "rating": 7,
+  "price": 28,
+  "lat": 45.4813,
+  "lon": 9.1761,
+  "photos": [
+   "photos/yanso.jpg"
+  ],
+  "text": "Sti cani da caccia hanno cambiato il cinese che c’era prima dove facevano gli spiedi di carne e tutto e hanno fatto l’all you can eat di carne coreana…",
+  "approx": false
+ },
+ {
+  "id": "v3",
+  "name": "Chiosco Maradona",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Street food",
+  "address": "Via Tabacchi 33, Milano",
+  "rating": 8,
+  "price": 8,
+  "lat": 45.4505,
+  "lon": 9.188,
+  "photos": [
+   "photos/chiosco-maradona.jpg"
+  ],
+  "text": "Roba da intenditori, penso che nessuna norma igienica sia stata rispettata. È aperto solo di notte, dalle 9.30 alle…",
+  "approx": true
+ },
+ {
+  "id": "v4",
+  "name": "Da Vito",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Carne",
+  "address": "Via Lorenteggio 177, Milano",
+  "rating": 10,
+  "price": 25,
+  "lat": 45.4486,
+  "lon": 9.1336,
+  "photos": [
+   "photos/da-vito.jpg"
+  ],
+  "text": "Non c’era una persona che me ne avesse parlato male, e infatti merita già prima di spiegare un 10/10. In ordine: due tartare e due straccetti di pollo, cambiavano i condimenti della carne, tutti e 4 buonissimi (abbiamo diviso la porzione in due ma consiglio anche 1 a testa). Carpaccio con olio e limone, bello leggero e saporito. Contorni (vanno a giornata): evitate le patate che appesantiscono se dovete scannarvi di carne. Due spiedini, una bombetta, un triangolo con gli spinaci e due salsicce al finocchio…",
+  "approx": false
+ },
+ {
+  "id": "v5",
+  "name": "Enrico Porzio",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Pizzeria",
+  "address": "Via Solari 34, Milano",
+  "rating": 8,
+  "price": 20,
+  "lat": 45.4515,
+  "lon": 9.162,
+  "photos": [
+   "photos/porzio.jpg"
+  ],
+  "text": "Pizzeria napoletana top. Ci sono un botto di pizze, sicuramente tornerò a provarne altre. La prima pizza…",
+  "approx": true
+ },
+ {
+  "id": "v6",
+  "name": "KFC Assago",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Fast food",
+  "address": "Milanofiori, Assago (MI)",
+  "rating": 8,
+  "price": 12,
+  "lat": 45.4095,
+  "lon": 9.148,
+  "photos": [
+   "photos/kfc.jpg"
+  ],
+  "text": "Da asporto. Sto panino ignorantissimo, un bucket da 10 pezzi di tenders, una box con patatine e altri due tenders, altre due…",
+  "approx": true
+ },
+ {
+  "id": "v7",
+  "name": "Forno Granfior",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Forno",
+  "address": "Via delle Forze Armate, Milano",
+  "rating": 10,
+  "price": 5,
+  "lat": 45.4565,
+  "lon": 9.109,
+  "photos": [
+   "photos/granfior.jpg"
+  ],
+  "text": "10/10 come al solito. 5 euro calzone prosciutto e…",
+  "approx": true
+ },
+ {
+  "id": "v8",
+  "name": "Il Panino Perfetto",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Hamburger",
+  "address": "Viale Bligny 1, Milano",
+  "rating": 8,
+  "price": 14,
+  "lat": 45.4515,
+  "lon": 9.193,
+  "photos": [
+   "photos/panino-perfetto.jpg"
+  ],
+  "text": "Paninate ignoranti. Io ho preso USA five: doppio smash di angus con…",
+  "approx": true
+ },
+ {
+  "id": "v9",
+  "name": "El Porteño Arena",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Argentino",
+  "address": "Viale Elvezia 4, Milano",
+  "rating": 8,
+  "price": 60,
+  "lat": 45.477,
+  "lon": 9.1745,
+  "photos": [
+   "photos/porteno.jpg"
+  ],
+  "text": "Cena per anniversario. Intanto, appena entri ti assale quel senso di tranquillità dato che…",
+  "approx": true
+ },
+ {
+  "id": "v10",
+  "name": "Vecchia Lira, The Club",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Carne",
+  "address": "Corso Garibaldi, Milano",
+  "rating": 9,
+  "price": 55,
+  "lat": 45.476,
+  "lon": 9.1832,
+  "photos": [
+   "photos/vecchia-lira.jpg"
+  ],
+  "text": "Cena da paura, posto già provato e recensito, la carne è buonissima, direi pure meglio del porteno brohibido e…",
+  "approx": true
+ },
+ {
+  "id": "v11",
+  "name": "Panini Galiano 1974",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Panini",
+  "address": "Via Ravizza 5, Milano",
+  "rating": 9,
+  "price": 9,
+  "lat": 45.4657,
+  "lon": 9.1536,
+  "photos": [
+   "photos/galiano.jpg"
+  ],
+  "text": "TOOOOOOOPPPPP, da paura ragazzi, andate tutti a comprarvi sto panino con la battuta di fassona, a mani basse uno…",
+  "approx": true
+ },
+ {
+  "id": "v12",
+  "name": "Panino Giusto",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Panini",
+  "address": "Via Buonarroti 15, Milano",
+  "rating": 7,
+  "price": 16,
+  "lat": 45.4683,
+  "lon": 9.1587,
+  "photos": [
+   "photos/panino-giusto.jpg"
+  ],
+  "text": "In ordine: Club iberico 16 €, pollo, melanzane e zucchine 15 € (mi sembra), Rustin 9,50 €…",
+  "approx": true
+ },
+ {
+  "id": "v13",
+  "name": "Moscatelli",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Italiano",
+  "address": "Corso Garibaldi 91, Milano",
+  "rating": 6,
+  "price": 35,
+  "lat": 45.4787,
+  "lon": 9.1815,
+  "photos": [
+   "photos/moscatelli.jpg"
+  ],
+  "text": "Affianco a pattini, lo guardavamo da un po’ e sembrava bello invitante, sempre pieno di gente, piatti colorati…",
+  "approx": true
+ },
+ {
+  "id": "v14",
+  "name": "Singapore",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Cinese",
+  "address": "Via Vincenzo Foppa 40, Milano",
+  "rating": 9,
+  "price": 25,
+  "lat": 45.453,
+  "lon": 9.158,
+  "photos": [
+   "photos/singapore.jpg"
+  ],
+  "text": "In ordine di foto: carne di manzo con bambù e funghi 10/10…",
+  "approx": true
+ },
+ {
+  "id": "v15",
+  "name": "Le Tre Regioni",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Panini",
+  "address": "Via Palermo 16, Milano",
+  "rating": 7,
+  "price": 6,
+  "lat": 45.4768,
+  "lon": 9.1862,
+  "photos": [
+   "photos/tre-regioni.jpg"
+  ],
+  "text": "Negozietto piccolo a conduzione familiare, ormai rari da trovare. Fa panini a 6 euro, belli pieni con bresaola/coppa e condimento con olio e limone, scamorza… pane un po’ stopposo, l’unico problema…",
+  "approx": true
+ },
+ {
+  "id": "v16",
+  "name": "Cajò",
+  "city": "Alghero",
+  "country": "Italia",
+  "cuisine": "Pizzeria",
+  "address": "Via Gioberti 4, Alghero (SS)",
+  "rating": 8,
+  "price": 15,
+  "lat": 40.556,
+  "lon": 8.3205,
+  "photos": [
+   "photos/cajo.jpg"
+  ],
+  "text": "Tendenzialmente in Sardegna pensavo di mangiare nei ristoranti, e soprattutto roba del posto. La mia ragazza aveva…",
+  "approx": true
+ },
+ {
+  "id": "v17",
+  "name": "Bar Focacceria Milese",
+  "city": "Alghero",
+  "country": "Italia",
+  "cuisine": "Focacceria",
+  "address": "Via Giuseppe Garibaldi 11, Alghero (SS)",
+  "rating": 7,
+  "price": 15,
+  "lat": 40.5588,
+  "lon": 8.3168,
+  "photos": [
+   "photos/milese.jpg"
+  ],
+  "text": "Baretto sul lungomare di Alghero. Siam passati un paio di volte…",
+  "approx": true
+ },
+ {
+  "id": "v18",
+  "name": "Trattoria Lo Romanì",
+  "city": "Alghero",
+  "country": "Italia",
+  "cuisine": "Sardo",
+  "address": "Via Lazzaretto 9, Alghero (SS)",
+  "rating": 9,
+  "price": 35,
+  "lat": 40.5578,
+  "lon": 8.319,
+  "photos": [
+   "photos/romani.jpg"
+  ],
+  "text": "A mani basse posto migliore dove mangiare ad Alghero. Parlando con qualche persona del posto, qua vanno a mangiare durante l’anno quando non ci sono turisti.",
+  "approx": true
+ },
+ {
+  "id": "v19",
+  "name": "La Meridionale",
+  "city": "Milano",
+  "country": "Italia",
+  "cuisine": "Pizzeria",
+  "address": "Via Marchesina 11, Trezzano sul Naviglio (MI)",
+  "rating": 6,
+  "price": 20,
+  "lat": 45.415,
+  "lon": 9.0735,
+  "photos": [
+   "photos/meridionale.jpg"
+  ],
+  "text": "Non mi ha entusiasmato ma non male, abbiamo mangiato bene. Abbiam preso un po’ di roba da mettere in mezzo, crocché vari e arrosticini che erano veramente buoni. Pizza l’ho presa con salsiccia, patate e provola. Dolce alla fine ho preso tiramisù con kinder bueno, buono buono.",
+  "approx": true
+ }
+]
