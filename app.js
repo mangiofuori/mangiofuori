@@ -25,7 +25,7 @@
     return fetch(C.SUPABASE_URL + '/rest/v1/venues?select=*&order=created_at.desc', { headers: { apikey: C.SUPABASE_KEY, Authorization: 'Bearer ' + C.SUPABASE_KEY }, signal: ctl.signal })
       .then(function (r) { clearTimeout(t); if (!r.ok) throw new Error('db'); return r.json(); })
       .then(function (d) { if (!d.length) throw new Error('vuoto'); return d; })
-      .catch(function () { return fetch('data/venues.json').then(function (r) { return r.json(); }); });
+      .catch(function () { return fetch('venues.json').then(function (r) { return r.json(); }); });
   }
 
   // ---- anteprima sulla mappa ----
@@ -115,7 +115,7 @@
   }
   window.addEventListener('hashchange', render);
   load().then(function (d) {
-    venues = d.map(function (v) { if (!v.photos || !v.photos.length) v.photos = ['photos/placeholder.jpg']; return v; });
+    venues = d.map(function (v) { v.photos = (v.photos && v.photos.length ? v.photos : ['placeholder.jpg']).map(function (p) { return p.split('/').pop(); }); return v; });
     order = shuffle(venues.map(function (v) { return v.id; }));
     render();
   });

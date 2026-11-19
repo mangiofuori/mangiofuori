@@ -6,7 +6,7 @@
 var out=document.getElementById('out'),sql=[];
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
 document.getElementById('go').onclick=async function(){
- var vs=await (await fetch('data/venues.json')).json();
+ var vs=await (await fetch('venues.json')).json();
  for(var v of vs){
   var q=v.address.replace(/, Milano$/,'')+(/Milano/.test(v.address)?', Milano':'');
   var p=document.createElement('p');p.textContent=v.name+': cerco…';out.appendChild(p);
